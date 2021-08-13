@@ -1,0 +1,16 @@
+services:
+  web:
+    container_name: web
+    build: .
+    command: nodemon -L index.js
+    volumes: 
+      - .:/nodeapp
+    ports:
+      - "5000:5000"
+      - "5001:5001"
+  mongo:
+    container_name: mongo
+    image: mongo
+    command: --quiet
+    ports:
+      - '27017:27017'

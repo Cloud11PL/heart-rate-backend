@@ -1,0 +1,4 @@
+{
+  "appService.defaultWebAppToDeploy": "/subscriptions/afd8bd54-429d-4f3b-b32f-0dcfcdc1e79a/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/hrspobackendapp",
+  "appService.deploySubpath": "."
+}
