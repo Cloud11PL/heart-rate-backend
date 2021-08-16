@@ -4,6 +4,9 @@ const app = express();
 const mqtt = require("mqtt");
 const mongoose = require("mongoose");
 const ObjectId = require("mongoose").Types.ObjectId;
+const cors = require("cors");
+
+app.use(cors());
 
 const DataPointModel = require("./models/datapoint.model");
 const DataSeriesModel = require("./models/dataseries.model");
@@ -54,7 +57,7 @@ const server = app.listen(port, () => {
   console.log(`http://localhost:${port}`);
 });
 
-const client = mqtt.connect(`wss://${process.env.MQTT_HOSTNAME}:${MQTT_PORT_TSL}`, {
+const client = mqtt.connect(`wss://${process.env.MQTT_HOSTNAME}:${process.env.PORT_TSL}`, {
   username: process.env.SERVER_USERNAME,
   password: process.env.SERVER_PASSWORD,
 });
@@ -93,6 +96,10 @@ const removeActiveSeries = (deviceId, seriesId) => {
   activeSeries = activeSeries.filter((el) => el.deviceId !== deviceId);
 
   if (seriesId) {
+    DataSeriesModel.findOneAndUpdate({ seriesId: ObjectId(seriesId)}, {
+      active: false
+    }, (err, res) => console.log(err,res));
+
     DataPointModel.find({ seriesId: ObjectId(seriesId) }, (err, points) => {
       if (err) console.log(err);
 
